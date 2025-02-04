@@ -1,0 +1,14 @@
+stages:          # List of stages for jobs, and their order of execution
+  - test
+
+test-playwright:   # This job runs in the test stage.
+  image: mcr.microsoft.com/playwright
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  script:
+    - npm ci
+    - npx playwright install --with-deps
+    - npx playwright test
+  artifacts:
+    when: always
+    paths:
+        - playwright-report/**
